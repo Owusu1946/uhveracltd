@@ -44,8 +44,8 @@ export default function BookingPage() {
                                 {steps.map((s) => (
                                     <div key={s.number} className="flex items-center gap-4">
                                         <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm border-4 transition-colors ${step >= s.number
-                                                ? "bg-black text-white border-black"
-                                                : "bg-white text-gray-400 border-gray-200"
+                                            ? "bg-black text-white border-black"
+                                            : "bg-white text-gray-400 border-gray-200"
                                             }`}>
                                             {step > s.number ? <Check className="h-5 w-5" /> : s.number}
                                         </div>
@@ -87,8 +87,8 @@ export default function BookingPage() {
                                             key={service}
                                             onClick={() => setSelectedService(service)}
                                             className={`text-left p-6 rounded-2xl border transition-all group ${selectedService === service
-                                                    ? "border-black bg-gray-50 ring-1 ring-black"
-                                                    : "border-gray-100 hover:border-black/20 hover:bg-gray-50"
+                                                ? "border-black bg-gray-50 ring-1 ring-black"
+                                                : "border-gray-100 hover:border-black/20 hover:bg-gray-50"
                                                 }`}
                                         >
                                             <div className="flex justify-between items-center mb-2">
@@ -96,8 +96,8 @@ export default function BookingPage() {
                                                     {service}
                                                 </span>
                                                 <div className={`h-8 w-8 rounded-full flex items-center justify-center border transition-colors ${selectedService === service
-                                                        ? "bg-black text-white border-black"
-                                                        : "bg-white border-gray-100 group-hover:bg-black group-hover:text-white"
+                                                    ? "bg-black text-white border-black"
+                                                    : "bg-white border-gray-100 group-hover:bg-black group-hover:text-white"
                                                     }`}>
                                                     {selectedService === service ? <Check className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                                                 </div>
@@ -115,19 +115,26 @@ export default function BookingPage() {
 
                                 {/* Date Scroller */}
                                 <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
-                                    {[...Array(14)].map((_, i) => (
-                                        <button
-                                            key={i}
-                                            onClick={() => setSelectedDate(i)}
-                                            className={`flex-shrink-0 w-20 h-24 rounded-2xl border flex flex-col items-center justify-center gap-1 transition-all ${selectedDate === i
-                                                ? "bg-black text-white border-black shadow-lg scale-105"
-                                                : "bg-white border-gray-100 hover:border-gray-200"
-                                                }`}
-                                        >
-                                            <span className="text-xs font-medium opacity-60">Mon</span>
-                                            <span className="text-2xl font-bold">{10 + i}</span>
-                                        </button>
-                                    ))}
+                                    {Array.from({ length: 14 }).map((_, i) => {
+                                        const date = new Date();
+                                        date.setDate(date.getDate() + i);
+                                        const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+                                        const dayNumber = date.getDate();
+
+                                        return (
+                                            <button
+                                                key={i}
+                                                onClick={() => setSelectedDate(i)}
+                                                className={`flex-shrink-0 w-20 h-24 rounded-2xl border flex flex-col items-center justify-center gap-1 transition-all ${selectedDate === i
+                                                    ? "bg-black text-white border-black shadow-lg scale-105"
+                                                    : "bg-white border-gray-100 hover:border-gray-200"
+                                                    }`}
+                                            >
+                                                <span className={`text-xs font-medium ${selectedDate === i ? "opacity-80" : "opacity-60"}`}>{dayName}</span>
+                                                <span className="text-2xl font-bold">{dayNumber}</span>
+                                            </button>
+                                        );
+                                    })}
                                 </div>
 
                                 {/* Time Grid */}
@@ -177,22 +184,71 @@ export default function BookingPage() {
                             </div>
                         )}
 
-                        {/* Actions */}
-                        <div className="mt-auto pt-12 flex justify-between items-center">
-                            {step > 1 ? (
-                                <button onClick={() => setStep(step - 1)} className="text-sm font-medium text-gray-500 hover:text-black transition-colors px-4 py-2">
-                                    Back
-                                </button>
-                            ) : <div></div>}
+                        {step === 4 && (
+                            <div className="flex flex-col items-center justify-center text-center py-12 animate-in fade-in zoom-in duration-500">
+                                <div className="h-24 w-24 rounded-full bg-green-100 flex items-center justify-center mb-6">
+                                    <Check className="h-10 w-10 text-green-600" />
+                                </div>
+                                <h2 className="text-4xl font-medium mb-4">Booking Confirmed!</h2>
+                                <p className="text-gray-500 max-w-md mb-8">
+                                    Your appointment for <span className="text-black font-semibold">{selectedService}</span> has been successfully scheduled. We've sent a confirmation email to you.
+                                </p>
 
-                            <Button
-                                onClick={() => step < 3 ? setStep(step + 1) : null}
-                                className="h-12 rounded-full bg-black text-white px-8 gap-2 hover:bg-black/90"
-                            >
-                                {step === 3 ? "Confirm Booking" : "Continue"}
-                                <ChevronRight className="h-4 w-4" />
-                            </Button>
-                        </div>
+                                <div className="bg-gray-50 rounded-2xl p-6 w-full max-w-sm mb-8 border border-gray-100">
+                                    <div className="flex justify-between mb-2">
+                                        <span className="text-gray-500 text-sm">Date</span>
+                                        <span className="font-medium">
+                                            {selectedDate !== null ? (() => {
+                                                const d = new Date();
+                                                d.setDate(d.getDate() + selectedDate);
+                                                return d.toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" });
+                                            })() : ""}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500 text-sm">Time</span>
+                                        <span className="font-medium">{selectedTime}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col md:flex-row gap-4 w-full justify-center">
+                                    <Button className="h-12 rounded-full border border-gray-200 bg-white text-black hover:bg-gray-50 gap-2">
+                                        <Calendar className="h-4 w-4" />
+                                        Add to Google Calendar
+                                    </Button>
+                                    <Button asChild className="h-12 rounded-full bg-black text-white hover:bg-black/90">
+                                        <a href="/">Back to Home</a>
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Actions */}
+                        {step < 4 && (
+                            <div className="mt-auto pt-12 flex justify-between items-center">
+                                {step > 1 ? (
+                                    <button onClick={() => setStep(step - 1)} className="text-sm font-medium text-gray-500 hover:text-black transition-colors px-4 py-2">
+                                        Back
+                                    </button>
+                                ) : <div></div>}
+
+                                <Button
+                                    onClick={() => {
+                                        if (step === 1 && selectedService) setStep(2);
+                                        else if (step === 2 && selectedDate !== null && selectedTime) setStep(3);
+                                        else if (step === 3) setStep(4);
+                                    }}
+                                    disabled={
+                                        (step === 1 && !selectedService) ||
+                                        (step === 2 && (selectedDate === null || !selectedTime))
+                                    }
+                                    className="h-12 rounded-full bg-black text-white px-8 gap-2 hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {step === 3 ? "Confirm Booking" : "Continue"}
+                                    <ChevronRight className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        )}
 
                     </div>
                 </div>

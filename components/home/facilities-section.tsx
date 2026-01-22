@@ -41,8 +41,8 @@ export function FacilitiesSection() {
             <div className="max-w-[1440px] mx-auto">
 
                 {/* Header */}
-                <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
-                    <div className="flex items-center gap-4">
+                <div className="flex flex-col lg:flex-row items-center justify-between mb-8 md:mb-12 gap-6 w-full">
+                    <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
                         <div className="px-4 py-1.5 rounded-full border border-gray-200 bg-white text-sm font-medium">
                             Facilities
                         </div>
@@ -51,8 +51,8 @@ export function FacilitiesSection() {
                         </h2>
                     </div>
 
-                    <div className="flex items-center gap-4 w-full md:w-auto">
-                        <div className="relative group w-full md:w-80">
+                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+                        <div className="relative group w-full sm:w-80">
                             <Input
                                 type="search"
                                 placeholder="Search here..."
@@ -60,7 +60,7 @@ export function FacilitiesSection() {
                             />
                             <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                         </div>
-                        <Button className="h-12 rounded-full bg-black text-white hover:bg-black/90 pl-6 pr-2 gap-3 text-sm shrink-0">
+                        <Button className="h-12 w-full sm:w-auto rounded-full bg-black text-white hover:bg-black/90 pl-6 pr-2 gap-3 text-sm shrink-0">
                             View All
                             <div className="bg-white/20 rounded-full h-8 w-8 flex items-center justify-center">
                                 <ArrowUpRight className="h-4 w-4 text-white" />
@@ -70,9 +70,9 @@ export function FacilitiesSection() {
                 </div>
 
                 {/* Facilities Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {facilities.map((facility) => (
-                        <div key={facility.id} className="relative h-[500px] rounded-[2rem] overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500">
+                        <div key={facility.id} className="relative h-[350px] md:h-[500px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500">
                             <Image
                                 src={facility.image}
                                 alt={facility.title}
