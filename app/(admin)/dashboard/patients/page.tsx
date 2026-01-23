@@ -43,8 +43,8 @@ export default function PatientsPage() {
             </div>
 
             {/* Header Actions */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="relative flex-1 max-w-md">
+            <div className="flex items-center gap-3">
+                <div className="relative flex-1 md:max-w-md">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input
                         type="text"
@@ -55,9 +55,9 @@ export default function PatientsPage() {
                     />
                 </div>
 
-                <Button className="h-11 rounded-xl bg-black text-white gap-2">
+                <Button className="h-11 rounded-xl bg-black text-white gap-2 shrink-0 md:w-auto">
                     <Plus className="h-4 w-4" />
-                    Add Patient
+                    <span className="hidden md:inline">Add Patient</span>
                 </Button>
             </div>
 
