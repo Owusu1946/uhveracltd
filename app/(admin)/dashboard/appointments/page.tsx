@@ -52,29 +52,28 @@ export default function AppointmentsPage() {
             </div>
 
             {/* Header Actions */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-center gap-3 flex-1">
-                    {/* Search */}
-                    <div className="relative flex-1 max-w-md">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <Input
-                            type="text"
-                            placeholder="Search appointments..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-11 h-11 rounded-xl bg-white border-gray-200"
-                        />
-                    </div>
-
-                    {/* Filter Button - Mobile */}
-                    <button className="md:hidden h-11 w-11 rounded-xl border border-gray-200 flex items-center justify-center bg-white">
-                        <Filter className="h-4 w-4" />
-                    </button>
+            <div className="flex items-center gap-3">
+                {/* Search */}
+                <div className="relative flex-1 md:max-w-md">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-11 h-11 rounded-xl bg-white border-gray-200"
+                    />
                 </div>
 
-                <Button className="h-11 rounded-xl bg-black text-white gap-2">
+                {/* Filter Button - Mobile */}
+                <button className="md:hidden h-11 w-11 shrink-0 rounded-xl border border-gray-200 flex items-center justify-center bg-white">
+                    <Filter className="h-4 w-4" />
+                </button>
+
+                {/* New Appointment Button */}
+                <Button className="h-11 rounded-xl bg-black text-white gap-2 shrink-0 md:w-auto">
                     <Plus className="h-4 w-4" />
-                    New Appointment
+                    <span className="hidden md:inline">New Appointment</span>
                 </Button>
             </div>
 
