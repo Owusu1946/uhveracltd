@@ -54,7 +54,7 @@ export function Header() {
 
     if (isFloating) {
       return cn(
-        "whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-medium lg:px-3.5 lg:text-sm",
+        "shrink-0 whitespace-nowrap rounded-full px-2 py-1.5 text-xs font-medium sm:px-3 sm:text-[13px] lg:px-3.5 lg:text-sm",
         disabled,
         active ? "bg-black/10 text-black/80" : "text-black/50"
       );
@@ -95,16 +95,16 @@ export function Header() {
           className={cn(
             "pointer-events-auto flex items-center",
             isFloating
-              ? "max-w-[calc(100vw-1.5rem)] flex-nowrap gap-0.5 rounded-full border border-black/[0.07] bg-white/95 py-1.5 pl-2 pr-1.5 shadow-[0_16px_48px_-12px_rgba(0,0,0,0.22)] backdrop-blur-xl sm:gap-1 sm:pl-2.5 sm:pr-1.5"
-              : "w-full justify-between gap-2"
+              ? "max-w-[calc(100vw-1.5rem)] flex-nowrap gap-0.5 overflow-x-auto rounded-full border border-black/[0.07] bg-white/95 py-1.5 pl-2 pr-1.5 shadow-[0_16px_48px_-12px_rgba(0,0,0,0.22)] backdrop-blur-xl [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-1 sm:pl-2.5 sm:pr-1.5 [&::-webkit-scrollbar]:hidden"
+              : "w-full justify-end gap-2 md:justify-between"
           )}
         >
           {/* Desktop nav — links disabled */}
           <nav
             className={cn(
-              "hidden items-center md:flex",
-              isFloating ? "gap-0" : "gap-1",
-              !isFloating && "mr-auto"
+              "hidden shrink-0 items-center md:flex",
+              isFloating ? "gap-0" : "gap-0.5 lg:gap-1",
+              !isFloating && "md:mr-auto"
             )}
           >
             {mainNav.map((item) => (
@@ -177,14 +177,14 @@ export function Header() {
             <Link
               href="/contact"
               className={cn(
-                "hidden sm:block",
+                "hidden shrink-0 sm:block",
                 isFloating && "ml-0.5"
               )}
             >
               {isFloating ? (
-                <span className="inline-flex h-9 items-center gap-1.5 rounded-full bg-black px-3.5 text-sm font-semibold text-white transition-colors hover:bg-black/90">
+                <span className="inline-flex h-9 items-center gap-1 rounded-full bg-black px-3 text-xs font-semibold text-white transition-colors hover:bg-black/90 sm:gap-1.5 sm:px-3.5 sm:text-sm">
                   Contact
-                  <ArrowUpRight className="h-3.5 w-3.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
                 </span>
               ) : (
                 <Button className="h-12 gap-3 rounded-full bg-black pr-2 pl-6 text-base text-white hover:bg-black/90">

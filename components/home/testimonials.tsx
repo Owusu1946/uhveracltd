@@ -10,25 +10,25 @@ const testimonials = [
         name: "Kenneth Owusu",
         role: "Project Manager",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
-        quote: "The care I received was world-class. The specialists at GAEC Hospital are truly dedicated to patient wellness and recovery."
+        quote: "Uhverac delivered our IT rollout on time and with clear communication throughout. A reliable partner for growing businesses."
     },
     {
         name: "Ama Serwaa",
         role: "Business Consultant",
         image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
-        quote: "From the moment I walked in, I felt at home. The facilities are modern and the staff is extremely professional."
+        quote: "Their consultancy team helped us streamline operations. Professional, practical, and focused on results."
     },
     {
         name: "Kwasi Appiah",
         role: "Software Engineer",
         image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop",
-        quote: "Their cardiology department is exceptional. I highly recommend GAEC for anyone seeking thorough and compassionate care."
+        quote: "We use Uhverac for supply and travel coordination. Consistent quality and responsive support every time."
     },
     {
         name: "Abena Boateng",
         role: "Education Specialist",
         image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=200&auto=format&fit=crop",
-        quote: "A truly modern approach to healthcare. The scheduling process was seamless and the results were life-changing."
+        quote: "A modern company with a human touch. They understand what clients need and deliver with integrity."
     }
 ];
 
@@ -72,12 +72,12 @@ export function Testimonials() {
     };
 
     return (
-        <section className="relative w-full py-24 px-6 bg-white overflow-hidden flex flex-col items-center">
+        <section className="relative flex w-full flex-col items-center overflow-hidden bg-white px-4 py-16 sm:px-6 sm:py-20 md:py-24">
 
             {/* Decorative Arc */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150vw] h-[150vw] md:w-[120vw] md:h-[120vw] bg-transparent border-[1px] border-gray-100 rounded-full pointer-events-none -translate-y-1/2 z-0"></div>
 
-            <div className="relative z-10 max-w-4xl mx-auto text-center mt-12 md:mt-16">
+            <div className="relative z-10 mx-auto mt-8 max-w-4xl px-2 text-center sm:mt-12 md:mt-16">
 
                 {/* Header Badge */}
                 <motion.div
@@ -90,7 +90,7 @@ export function Testimonials() {
                     <Smile className="h-5 w-5 text-black" />
                 </motion.div>
 
-                <div className="min-h-[300px] flex flex-col items-center justify-center relative">
+                <div className="relative flex min-h-[240px] flex-col items-center justify-center sm:min-h-[280px] md:min-h-[300px]">
                     <AnimatePresence initial={false} custom={direction} mode="wait">
                         <motion.div
                             key={index}
@@ -108,8 +108,8 @@ export function Testimonials() {
                         >
                             {/* Quote */}
                             <div className="relative mb-12">
-                                <span className="text-6xl md:text-8xl font-serif text-gray-100 absolute -top-12 -left-4 md:-left-12 select-none">❝</span>
-                                <p className="text-2xl md:text-4xl font-medium leading-relaxed text-black tracking-tight italic">
+                                <span className="absolute -left-2 -top-8 select-none font-serif text-5xl text-gray-100 sm:-left-4 sm:-top-12 sm:text-6xl md:-left-12 md:text-8xl">❝</span>
+                                <p className="text-lg font-medium italic leading-relaxed tracking-tight text-black sm:text-2xl md:text-3xl lg:text-4xl">
                                     {testimonials[index].quote}
                                 </p>
                             </div>
@@ -134,8 +134,8 @@ export function Testimonials() {
                 </div>
 
                 {/* Controls & Dots */}
-                <div className="flex flex-col items-center gap-8 mt-16">
-                    <div className="flex items-center gap-6">
+                <div className="mt-10 flex flex-col items-center gap-6 sm:mt-16 sm:gap-8">
+                    <div className="flex items-center gap-4 sm:gap-6">
                         <button
                             onClick={prev}
                             className="h-12 w-12 rounded-full border border-gray-100 flex items-center justify-center bg-white text-black hover:bg-black hover:text-white transition-all shadow-sm active:scale-90"

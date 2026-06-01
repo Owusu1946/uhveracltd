@@ -1,4 +1,8 @@
-"use client";
+import { execSync } from "node:child_process";
+import fs from "node:fs";
+
+const path = "components/home/hero.tsx";
+const content = `"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -144,3 +148,7 @@ export function Hero() {
     </section>
   );
 }
+`;
+
+fs.writeFileSync(path, content, "utf8");
+console.log("Wrote", path, fs.statSync(path).size, "bytes");
