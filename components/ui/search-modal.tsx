@@ -2,57 +2,21 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Search, X, ArrowRight, Clock, TrendingUp, Stethoscope, User, MapPin, Calendar } from "lucide-react"
+import { Search, X, ArrowRight, Clock, TrendingUp } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import {
+    searchCatalog,
+    searchQuickActions,
+    siteConfig,
+    trendingSearches,
+    type NavSearchItem,
+} from "@/lib/site-config"
 
-// Searchable data - in production this would come from an API
-const searchData = {
-    services: [
-        { id: 1, title: "General Consultation", description: "Primary care and health checkups", href: "/book-appointment", icon: Stethoscope },
-        { id: 2, title: "Cardiology", description: "Heart and cardiovascular care", href: "/book-appointment", icon: Stethoscope },
-        { id: 3, title: "Pediatrics", description: "Children's health services", href: "/book-appointment", icon: Stethoscope },
-        { id: 4, title: "Dental Care", description: "Oral health and dentistry", href: "/book-appointment", icon: Stethoscope },
-        { id: 5, title: "Neurology", description: "Brain and nervous system", href: "/book-appointment", icon: Stethoscope },
-        { id: 6, title: "Orthopedics", description: "Bone and joint care", href: "/book-appointment", icon: Stethoscope },
-        { id: 7, title: "Emergency Care", description: "24/7 emergency services", href: "/book-appointment", icon: Stethoscope },
-        { id: 8, title: "Pharmacy", description: "On-site medication services", href: "#", icon: Stethoscope },
-    ],
-    doctors: [
-        { id: 1, title: "Dr. Kwame Asante", description: "Chief Medical Officer", href: "/about", icon: User },
-        { id: 2, title: "Dr. Ama Mensah", description: "Head of Cardiology", href: "/about", icon: User },
-        { id: 3, title: "Dr. Kofi Owusu", description: "Director of Surgery", href: "/about", icon: User },
-        { id: 4, title: "Dr. Efua Boateng", description: "Head of Pediatrics", href: "/about", icon: User },
-    ],
-    pages: [
-        { id: 1, title: "About Us", description: "Learn about our hospital", href: "/about", icon: MapPin },
-        { id: 2, title: "Contact", description: "Get in touch with us", href: "/contact", icon: MapPin },
-        { id: 3, title: "Book Appointment", description: "Schedule a consultation", href: "/book-appointment", icon: Calendar },
-    ],
-}
+const RECENT_SEARCHES_KEY = "uhverac-recent-searches"
 
-const quickActions = [
-    { label: "Book Appointment", href: "/book-appointment", icon: Calendar },
-    { label: "Find a Doctor", href: "/about", icon: User },
-    { label: "Contact Us", href: "/contact", icon: MapPin },
-]
-
-const trendingSearches = [
-    "Cardiology",
-    "Emergency Care",
-    "Dr. Kwame Asante",
-    "General Consultation",
-]
-
-interface SearchResult {
-    id: number
-    title: string
-    description: string
-    href: string
-    icon: React.ComponentType<{ className?: string }>
-    category: string
-}
+type SearchResult = NavSearchItem
 
 interface SearchModalProps {
     isOpen: boolean
@@ -69,7 +33,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
     // Load recent searches from localStorage
     useEffect(() => {
-        const saved = localStorage.getItem("hospital-recent-searches")
+        const saved = localStorage.getItem(RECENT_SEARCHES_KEY)
         if (saved) {
             setRecentSearches(JSON.parse(saved))
         }
@@ -95,28 +59,12 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         }
 
         const q = searchQuery.toLowerCase()
-        const allResults: SearchResult[] = []
-
-        // Search services
-        searchData.services.forEach(item => {
-            if (item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)) {
-                allResults.push({ ...item, category: "Services" })
-            }
-        })
-
-        // Search doctors
-        searchData.doctors.forEach(item => {
-            if (item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)) {
-                allResults.push({ ...item, category: "Doctors" })
-            }
-        })
-
-        // Search pages
-        searchData.pages.forEach(item => {
-            if (item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)) {
-                allResults.push({ ...item, category: "Pages" })
-            }
-        })
+        const allResults = searchCatalog.filter(
+            (item) =>
+                item.title.toLowerCase().includes(q) ||
+                item.description.toLowerCase().includes(q) ||
+                item.category.toLowerCase().includes(q)
+        )
 
         setResults(allResults)
         setSelectedIndex(0)
@@ -130,7 +78,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     const saveRecentSearch = (searchTerm: string) => {
         const updated = [searchTerm, ...recentSearches.filter(s => s !== searchTerm)].slice(0, 5)
         setRecentSearches(updated)
-        localStorage.setItem("hospital-recent-searches", JSON.stringify(updated))
+        localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated))
     }
 
     // Handle result selection
@@ -174,7 +122,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     const clearRecentSearch = (searchTerm: string) => {
         const updated = recentSearches.filter(s => s !== searchTerm)
         setRecentSearches(updated)
-        localStorage.setItem("hospital-recent-searches", JSON.stringify(updated))
+        localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated))
     }
 
     // Group results by category
@@ -216,7 +164,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                                     type="text"
                                     value={query}
                                     onChange={(e) => setQuery(e.target.value)}
-                                    placeholder="Search services, doctors, pages..."
+                                    placeholder="Search services, pages, blog..."
                                     className="w-full h-14 pl-12 pr-12 text-base md:text-lg rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-black transition-all"
                                 />
                                 {query && (
@@ -291,7 +239,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                                             <Search className="h-8 w-8 text-gray-300" />
                                         </div>
                                         <p className="text-gray-500 font-medium">No results found for &quot;{query}&quot;</p>
-                                        <p className="text-gray-400 text-sm mt-1">Try searching for services, doctors, or pages</p>
+                                        <p className="text-gray-400 text-sm mt-1">Try IT, consultancy, travel, or contact</p>
                                     </div>
                                 )
                             ) : (
@@ -302,7 +250,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                                             Quick Actions
                                         </h3>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                                            {quickActions.map((action) => (
+                                            {searchQuickActions.map((action) => (
                                                 <Link
                                                     key={action.label}
                                                     href={action.href}
@@ -370,7 +318,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         {/* Footer */}
                         <div className="p-4 border-t border-gray-100 bg-gray-50/50">
                             <div className="flex items-center justify-between text-xs text-gray-400">
-                                <span>Search powered by Hospitals</span>
+                                <span>Search · {siteConfig.legalName}</span>
                                 <button
                                     onClick={onClose}
                                     className="px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors font-medium"

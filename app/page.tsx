@@ -1,8 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/home/hero";
 import { ExploreSection } from "@/components/home/explore-section";
-import { DnaScroll } from "@/components/home/dna-scroll";
-import { FacilitiesSection } from "@/components/home/facilities-section";
+import { InnovationSplineSection } from "@/components/home/innovation-spline-section";
 import { Testimonials } from "@/components/home/testimonials";
 import { ContactFooter } from "@/components/home/contact-footer";
 
@@ -12,9 +11,8 @@ export default function Home() {
       <Header />
       <Hero />
       <ExploreSection />
-      <DnaScroll />
-      <FacilitiesSection />
-      <Testimonials />
+      {/* <InnovationSplineSection />
+      <Testimonials /> */}
       <ContactFooter />
     </main>
   );
